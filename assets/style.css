@@ -1,0 +1,465 @@
+/* ===========================================
+   CodeSnake Chaos Edition v2.4 — style.css
+   (Typography, color palette, and layout preserved)
+   =========================================== */
+
+/* === ROOT VARIABLES === */
+:root {
+  --retro-bg1: #190024;
+  --retro-pink: #ff33cc;
+  --retro-mag: #ff66ff;
+  --retro-cyan: #33ffd6;
+  --panel-bg: rgba(0, 0, 0, 0.55);
+  --modern-bg1: #f3f4f6;
+  --modern-panel: #ffffff;
+  --modern-ink: #111827;
+}
+
+/* === BASE STYLES === */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Press Start 2P", monospace;
+  overflow: hidden;
+  background: #000;
+}
+
+/* === THEMES === */
+body.retro {
+  background: radial-gradient(circle at center, var(--retro-bg1) 0%, #000 100%);
+  color: var(--retro-mag);
+}
+
+body.modern {
+  background: linear-gradient(180deg, var(--modern-bg1) 0%, #e6e7ea 100%);
+  color: var(--modern-ink);
+}
+
+/* === APP LAYOUT === */
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 20px;
+  height: 100vh;
+}
+
+/* === CONTROL COLUMNS === */
+.controls-col {
+  width: 240px;
+  max-width: 30vw;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: stretch;
+  z-index: 2;
+}
+
+.controls-panel {
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  font-size: 13px;
+}
+
+body.retro .controls-panel {
+  background: var(--panel-bg);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #ffd6ff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+body.modern .controls-panel {
+  background: var(--modern-panel);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: var(--modern-ink);
+  box-shadow: 0 8px 18px rgba(16, 24, 40, 0.06);
+}
+
+/* === CENTER AREA === */
+.center-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 640px;
+  max-width: 60vw;
+  position: relative;
+  z-index: 1;
+}
+
+/* === SCOREBOARD === */
+.scoreTopRight {
+  position: absolute;
+  right: calc(50% - 320px);
+  top: 18px;
+  transform: translateX(100%);
+  z-index: 4;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.scoreBox {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* === CRT === */
+#crt {
+  position: relative;
+  width: 560px;
+  height: 560px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+body.retro #crt {
+  border: 3px solid var(--retro-pink);
+  box-shadow: 0 0 40px rgba(255, 45, 214, 0.12),
+              inset 0 0 30px rgba(255, 0, 200, 0.04);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 200, 0.02),
+    transparent 60%
+  );
+}
+
+body.modern #crt {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 12px 40px rgba(16, 24, 40, 0.06);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 255, 255, 0.98)
+  );
+}
+
+/* === SMALL BUTTONS INSIDE CRT === */
+.controlsTopRight {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.smallControlBtn {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  cursor: pointer;
+  border: none;
+}
+
+/* === CANVAS === */
+canvas {
+  width: 512px;
+  height: 512px;
+  border-radius: 8px;
+  image-rendering: pixelated;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+body.retro canvas {
+  background: linear-gradient(90deg, #140014 0%, #0b000b 100%);
+}
+
+body.modern canvas {
+  background: linear-gradient(180deg, #ffffff, #f0f2f5);
+}
+
+/* === BACKGROUND LAYERS === */
+.bgLayer {
+  position: absolute;
+  inset: 18px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bgParticles,
+.bgGradient {
+  position: absolute;
+  inset: 0;
+}
+
+/* === PANELS & OVERLAYS === */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  pointer-events: auto;
+}
+
+.panel {
+  width: 86%;
+  max-width: 520px;
+  padding: 18px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+body.retro .panel {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.72),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #ffd6ff;
+}
+
+body.modern .panel {
+  background: var(--modern-panel);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: var(--modern-ink);
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.04);
+}
+
+h1 {
+  margin: 6px 0 12px 0;
+  font-size: 18px;
+}
+
+/* === LEVEL BUTTONS === */
+.levelBtns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  font-family: "Press Start 2P", monospace;
+  text-align: center;
+}
+
+.levelBtn {
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.12s, box-shadow 0.18s;
+  line-height: 1.2;
+}
+
+.levelBtn:hover {
+  transform: scale(1.07);
+}
+
+/* === RETRO BUTTON COLORS === */
+body.retro .levelBtn[data-speed="220"] {
+  background: #00ff99;
+  color: #000;
+  box-shadow: 0 6px 18px rgba(0, 255, 153, 0.08);
+}
+
+body.retro .levelBtn[data-speed="160"] {
+  background: #00ccff;
+  color: #000;
+  box-shadow: 0 6px 18px rgba(0, 204, 255, 0.08);
+}
+
+body.retro .levelBtn[data-speed="120"] {
+  background: #cc66ff;
+  color: #fff;
+  box-shadow: 0 8px 26px rgba(204, 102, 255, 0.18);
+}
+
+body.retro .levelBtn[data-speed="90"] {
+  background: #ff33cc;
+  color: #fff;
+  box-shadow: 0 10px 34px rgba(255, 51, 204, 0.22);
+}
+
+body.retro .levelBtn[data-speed="60"] {
+  background: #ff0044;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(255, 0, 68, 0.26);
+}
+
+/* === Extra Neon Pulse Hover === */
+.levelBtn.glowHover:hover {
+  transform: scale(1.08);
+  box-shadow: 0 18px 60px rgba(255, 20, 140, 0.24);
+}
+
+/* === MODERN BUTTONS === */
+body.modern .levelBtn {
+  background: #e6eef8;
+  color: var(--modern-ink);
+  box-shadow: 0 6px 12px rgba(16, 24, 40, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+/* === TRAPS / SWATCHES / SMALL TEXT === */
+.trap-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 8;
+  transition: box-shadow 320ms ease-out;
+}
+
+.trap-pulse.show.retro {
+  box-shadow: 0 0 36px 6px rgba(255, 20, 140, 0.22),
+              inset 0 0 28px rgba(255, 20, 140, 0.08);
+}
+
+.trap-pulse.show.modern {
+  box-shadow: 0 0 34px 8px rgba(255, 255, 255, 0.12);
+}
+
+.color-swatch {
+  width: 28px;
+  height: 22px;
+  border-radius: 8px;
+  margin-right: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  transition: box-shadow 0.12s, transform 0.12s;
+}
+
+.color-swatch.selected {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06),
+              0 0 12px 4px rgba(255, 0, 200, 0.18) !important;
+  border-color: #fff;
+}
+
+.small {
+  font-size: 11px;
+}
+
+/* === COMBO BADGE === */
+.comboBadge {
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffd6ff;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  margin-top: 6px;
+  pointer-events: none;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1100px) {
+  .app {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .controls-col {
+    width: 95%;
+    max-width: 720px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .center-area {
+    width: 100%;
+    max-width: 720px;
+  }
+
+  #crt {
+    width: 92%;
+    height: auto;
+    padding: 12px 0;
+  }
+
+  canvas {
+    width: 92%;
+    height: auto;
+  }
+
+  .scoreTopRight {
+    right: 10px;
+    transform: none;
+    left: auto;
+  }
+}
+
+/* === ANIMATIONS === */
+@keyframes floaty {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes gradientShift {
+  0% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(28deg); }
+  100% { filter: hue-rotate(0deg); }
+}
+
+.levelSelectBg {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(28px);
+  opacity: 0.95;
+  animation: gradientShift 12s infinite linear;
+}
+
+.level-panel-inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* === LEADERBOARD === */
+#leaderboardContainer {
+  margin-top: 1em;
+  text-align: center;
+}
+
+#leaderboardList {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5em;
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+#leaderboardList li {
+  color: #fff;
+}
+
+body.modern #leaderboardList li {
+  color: #111827;
+}

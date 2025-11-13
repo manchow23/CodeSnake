@@ -1,5 +1,6 @@
-# ignore common stuff
 .git
 .gitignore
+README.md
 node_modules
-*.log
+Dockerfile
+docker-compose.yml

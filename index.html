@@ -1,597 +1,216 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>🕹️ CodeSnake — Theme + Contrast Fixes</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-:root{
-  --retro-bg1:#190024;
-  --retro-neon-pink:#ff33cc;
-  --retro-neon-mag:#ff66ff;
-  --retro-neon-cyan:#33ffd6;
-  --panel-bg: rgba(0,0,0,0.55);
-  --crt-border: var(--retro-neon-pink);
-  --modern-bg1:#f3f4f6;
-  --modern-panel:#ffffff;
-  --modern-ink:#111827;
-}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🕹️ CodeSnake — Chaos Edition v2.4</title>
 
-/* base */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:"Press Start 2P",monospace;overflow:hidden;}
-body.retro{
-  background: radial-gradient(circle at center,var(--retro-bg1) 0%, #000 100%);
-  color:var(--retro-neon-mag);
-}
-body.modern{
-  background: linear-gradient(180deg,var(--modern-bg1) 0%, #e6e7ea 100%);
-  color:var(--modern-ink);
-}
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
 
-/* app layout */
-.app{ display:flex; align-items:center; justify-content:center; gap:18px; padding:18px; height:100vh; }
+  <body class="retro">
+    <div class="app">
 
-/* controls */
-.controls-col{ width:220px; max-width:30vw; min-width:180px; display:flex; flex-direction:column; gap:12px; align-items:stretch; z-index:1; }
-.controls-panel{ padding:12px; border-radius:10px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); font-size:13px; }
-body.retro .controls-panel{ background:var(--panel-bg); border:1px solid rgba(255,255,255,0.04); color:#ffd6ff; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
-body.modern .controls-panel{ background:var(--modern-panel); border:1px solid rgba(0,0,0,0.06); color:var(--modern-ink); box-shadow:0 8px 18px rgba(16,24,40,0.06); }
-
-/* center area */
-.center-area{ display:flex; flex-direction:column; align-items:center; gap:10px; width:560px; max-width:60vw; }
-#crt{ position:relative; width:520px; height:560px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-body.retro #crt{ border:3px solid var(--crt-border); box-shadow: 0 0 40px rgba(255,0,200,0.12), inset 0 0 30px rgba(255,0,200,0.04); background:linear-gradient(180deg, rgba(255,0,200,0.02), transparent 60%); }
-body.modern #crt{ border:1px solid rgba(0,0,0,0.06); box-shadow: 0 6px 24px rgba(16,24,40,0.06); background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.92)); }
-
-/* canvas */
-canvas{ width:480px; height:480px; border-radius:6px; image-rendering: pixelated; display:block; }
-body.retro canvas{ background:linear-gradient(90deg,#140014 0%, #0b000b 100%); }
-body.modern canvas{ background: linear-gradient(180deg,#ffffff,#f0f2f5); }
-
-/* overlays */
-.overlay{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:6; pointer-events:auto; }
-.panel{ width:86%; max-width:420px; padding:18px; border-radius:10px; text-align:center; }
-body.retro .panel{ background: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.04); color:#ffd6ff; }
-body.modern .panel{ background:var(--modern-panel); border:1px solid rgba(0,0,0,0.06); color:var(--modern-ink); box-shadow:0 6px 20px rgba(16,24,40,0.04); }
-h1{ margin:6px 0 12px 0; font-size:20px; }
-body.retro h1{ color:var(--retro-neon-pink); text-shadow:0 0 16px rgba(255,45,214,0.25); }
-body.modern h1{ color:var(--modern-ink); }
-
-/* typewriter */
-.typewriter{ font-size:12px; line-height:1.45; white-space:pre-wrap; text-align:left; min-height:160px; }
-
-/* HUD */
-.hud{ width:100%; display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:13px; }
-.comboBadge{ padding:6px 10px; border-radius:8px; color:#000; font-weight:700; display:none; box-shadow:0 10px 30px rgba(0,0,0,0.06); }
-body.retro .comboBadge{ background:linear-gradient(90deg,#ff66ff,#33ffd6); }
-
-/* buttons */
-.btn{font-family:"Press Start 2P",monospace;font-size:10px;padding:10px 12px;border-radius:8px;cursor:pointer;border:none;}
-.levelBtn{ padding:12px 16px; border-radius:8px; cursor:pointer; transition:transform .12s; color:inherit; }
-.levelBtn:hover{ transform:scale(1.06); }
-
-/* Retro level button colors — ensure good contrast for text */
-body.retro .levelBtn[data-speed="220"]{ background:#00ff99; color:#000; box-shadow:0 6px 18px rgba(0,255,153,0.08);}
-body.retro .levelBtn[data-speed="160"]{ background:#00ccff; color:#000; box-shadow:0 6px 18px rgba(0,204,255,0.08);}
-body.retro .levelBtn[data-speed="120"]{ background:#cc66ff; color:#fff; box-shadow:0 6px 18px rgba(204,102,255,0.08);}
-body.retro .levelBtn[data-speed="90"]{ background:#ff33cc; color:#fff; box-shadow:0 6px 18px rgba(255,51,204,0.08);}
-body.retro .levelBtn[data-speed="60"]{ background:#ff0044; color:#fff; box-shadow:0 6px 18px rgba(255,0,68,0.08);}
-
-/* Modern level button baseline */
-body.modern .levelBtn{ background:#e6eef8; color:var(--modern-ink); box-shadow:0 6px 12px rgba(16,24,40,0.04); border:1px solid rgba(0,0,0,0.04); }
-
-/* Play again glow = same as level buttons */
-#playAgainBtn{ box-shadow:0 0 28px rgba(255,45,214,0.06); }
-
-/* small */
-.small{ font-size:11px; }
-
-/* controls look */
-.range{ width:120px; }
-.color-swatch{ width:26px; height:22px; border-radius:6px; margin-right:8px; border:2px solid rgba(0,0,0,0.12); cursor:pointer; display:inline-block; vertical-align:middle; }
-
-/* responsive */
-@media (max-width:1100px){
-  .app{ flex-direction:column; align-items:center; gap:12px; padding:12px; }
-  .controls-col{ width:95%; max-width:720px; flex-direction:row; justify-content:space-between; }
-  .center-area{ width:100%; max-width:720px; }
-  #crt{ width:92%; height:auto; padding:12px 0; }
-  canvas{ width:92%; height:auto; }
-}
-</style>
-</head>
-<body class="retro">
-<div class="app">
-
-  <!-- left column: particles -->
-  <div class="controls-col">
-    <div class="controls-panel">
-      <h3>Particles</h3>
-      <div class="small">Count multiplier <span id="countMulLabel">1.00</span></div>
-      <input id="particleCountMul" class="range" type="range" min="0.25" max="3" step="0.25" value="1">
-      <div style="margin-top:8px" class="small">Size <span id="sizeLabel">3.0</span>px</div>
-      <input id="particleSize" class="range" type="range" min="1" max="6" step="0.5" value="3">
-      <div style="margin-top:8px" class="small">Trailing sparkles</div>
-      <label style="margin-top:6px"><input id="trailToggle" type="checkbox" checked> enabled</label>
-      <div style="margin-top:10px" class="small">Palette</div>
-      <div style="margin-top:6px">
-        <span class="color-swatch" data-color="mixed" style="background:linear-gradient(90deg,#ff66ff,#33ffd6)"></span>
-        <span class="color-swatch" data-color="#ff66ff" style="background:#ff66ff"></span>
-        <span class="color-swatch" data-color="#33ffd6" style="background:#33ffd6"></span>
-        <span class="color-swatch" data-color="#ffd166" style="background:#ffd166"></span>
-        <span class="color-swatch" data-color="#66ff88" style="background:#66ff88"></span>
-      </div>
-      <div style="margin-top:10px" class="small">Volume</div>
-      <input id="vol" class="range" type="range" min="0" max="100" value="80">
-    </div>
-  </div>
-
-  <!-- center -->
-  <div class="center-area">
-    <div id="crt">
-      <canvas id="game" width="480" height="480" aria-label="CodeSnake canvas"></canvas>
-
-      <!-- intro overlay -->
-      <div id="introOverlay" class="overlay" aria-live="polite">
-        <div class="panel">
-          <h1>🕹️ CODE SNAKE</h1>
-          <div id="introText" class="typewriter"></div>
-          <div style="margin-top:10px" class="small">Press <strong>Enter</strong> once to show full intro, press <strong>Enter</strong> again to open level selection.</div>
-        </div>
-      </div>
-
-      <!-- level overlay (theme toggle included) -->
-      <div id="levelOverlay" class="overlay" style="display:none">
-        <div class="panel">
-          <h1>SELECT SPEED & THEME</h1>
-          <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:12px;">
-            <button class="levelBtn btn" data-speed="220">EASY</button>
-            <button class="levelBtn btn" data-speed="160">NORMAL</button>
-            <button class="levelBtn btn" data-speed="120">FAST</button>
-            <button class="levelBtn btn" data-speed="90">HARD</button>
-            <button class="levelBtn btn" data-speed="60">INSANE</button>
+      <!-- LEFT PANEL -->
+      <div class="controls-col" id="leftCol">
+        <div class="controls-panel">
+          <h3>Appearance</h3>
+          <div class="small">
+            Theme preview updates immediately when selected in level screen.
           </div>
-
-          <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-top:8px;">
-            <label style="font-size:12px;margin-right:6px;">Theme:</label>
-            <select id="themeSelect" style="padding:8px;border-radius:6px;font-family:'Press Start 2P';">
-              <option value="retro">Retro</option>
-              <option value="modern">Modern</option>
-            </select>
+          <div class="small" style="margin-top: 8px;">
+            Retro = neon synthwave. Modern = clean flat UI.
           </div>
-
-          <div class="small" style="margin-top:10px">Choose theme and level. Game starts immediately on level pick.</div>
         </div>
-      </div>
 
-      <!-- game over -->
-      <div id="gameOverOverlay" class="overlay" style="display:none">
-        <div class="panel">
-          <div style="font-size:14px">💀 GAME OVER 💀</div>
-          <div id="finalScore" class="small" style="margin-top:8px">Score: 0</div>
-          <div id="bestScore" class="small" style="margin-top:6px">Best: 0</div>
-          <div style="margin-top:10px">
-            <button id="playAgainBtn" class="levelBtn btn" data-speed="90">PLAY AGAIN</button>
+        <div class="controls-panel">
+          <h3>Combo</h3>
+          <div class="small">
+            Combo window: 2.5s to chain eats into a combo.
+          </div>
+          <div class="small" style="margin-top: 8px;">
+            Best score saved locally.
           </div>
         </div>
       </div>
 
-    </div>
+      <!-- CENTER AREA -->
+      <div class="center-area">
+        <div class="scoreTopRight">
+          <div class="scoreBox">
+            <div id="scoreBoard">Score: 0</div>
+            <div id="bestBoard" class="small">Best: 0</div>
+          </div>
+        </div>
 
-    <div class="hud">
-      <div>
-        <div id="scoreBoard">Score: 0</div>
-        <div id="bestBoard" class="small" style="margin-left:12px">Best: 0</div>
-        <div id="comboBox" class="comboBadge">x1</div>
+        <div id="crt">
+          <div class="bgLayer" id="bgLayer">
+            <div id="bgParticles" class="bgParticles"></div>
+            <div id="bgGradient" class="bgGradient"></div>
+            <div id="trapContainer"></div>
+          </div>
+
+          <canvas id="game" width="480" height="480"></canvas>
+
+          <div class="controlsTopRight">
+            <button id="pauseBtn" class="smallControlBtn">PAUSE</button>
+            <button id="musicBtn" class="smallControlBtn">🎵</button>
+          </div>
+
+          <div id="trapPulse" class="trap-pulse"></div>
+
+          <!-- INTRO -->
+          <div id="introOverlay" class="overlay">
+            <div class="panel">
+              <h1>🕹️ CODE SNAKE</h1>
+              <div id="introText" class="typewriter"></div>
+              <div class="small" style="margin-top: 10px;">
+                Press <strong>Enter</strong> to skip intro → Press again to start!
+              </div>
+            </div>
+          </div>
+
+          <!-- LEVEL SELECT -->
+          <div id="levelOverlay" class="overlay" style="display: none;">
+            <div class="panel level-panel-inner">
+              <div class="levelSelectBg" id="levelSelectBg"></div>
+              <h1>SELECT SPEED & THEME</h1>
+
+              <div class="levelBtns">
+                <button class="levelBtn glowHover" data-speed="220">EASY</button>
+                <button class="levelBtn glowHover" data-speed="160">NORMAL</button>
+                <button class="levelBtn glowHover" data-speed="120">FAST</button>
+                <button class="levelBtn glowHover" data-speed="90">HARD</button>
+                <button class="levelBtn glowHover" data-speed="60">INSANE</button>
+              </div>
+
+              <div class="themeSelector" style="margin-top: 14px;">
+                <label>Theme:</label>
+                <select id="themeSelect">
+                  <option value="retro">Retro</option>
+                  <option value="modern">Modern</option>
+                </select>
+              </div>
+
+              <div class="small" style="margin-top: 10px;">
+                Choose theme and level. Preview updates instantly.
+              </div>
+            </div>
+          </div>
+
+          <!-- GAME OVER -->
+          <div id="gameOverOverlay" class="overlay" style="display: none;">
+            <div class="panel">
+              <div style="font-size: 14px;">💀 GAME OVER 💀</div>
+              <div id="finalScore" class="small" style="margin-top: 8px;">Score: 0</div>
+              <div id="bestScore" class="small" style="margin-top: 6px;">Best: 0</div>
+
+              <div id="leaderboardContainer">
+                <h3>🏆 Leaderboard</h3>
+                <ul id="leaderboardList"></ul>
+              </div>
+              <div class="endButtons">
+                <button id="backToLevelBtn" class="levelBtn btn">↩ LEVEL SELECT</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HUD row -->
+        <div
+          class="hud small"
+          style="display: flex; flex-direction: column; align-items: center; gap: 6px;"
+        >
+          <div>
+            Use Arrows or WASD — Press <strong>P</strong> to Pause
+          </div>
+
+          <div
+            id="comboBox"
+            class="comboBadge"
+            style="display: none; font-family: 'Press Start 2P';"
+          >
+            x1
+          </div>
+        </div>
       </div>
-      <div class="small">Use Arrows or WASD — Enter controls intro</div>
+
+      <!-- RIGHT PANEL -->
+      <div class="controls-col" id="rightCol">
+        <div class="controls-panel">
+          <h3>Particles</h3>
+
+          <div class="small">
+            Count multiplier <span id="countMulLabel">1.00</span>
+          </div>
+          <input
+            id="particleCountMul"
+            class="range"
+            type="range"
+            min="0.25"
+            max="3"
+            step="0.25"
+            value="1"
+          />
+
+          <div class="small" style="margin-top: 8px;">
+            Size <span id="sizeLabel">3.0</span>px
+          </div>
+          <input
+            id="particleSize"
+            class="range"
+            type="range"
+            min="1"
+            max="6"
+            step="0.5"
+            value="3"
+          />
+
+          <div class="small" style="margin-top: 8px;">Trailing sparkles</div>
+          <label>
+            <input id="trailToggle" type="checkbox" checked /> enabled
+          </label>
+
+          <div class="small" style="margin-top: 10px;">Palette</div>
+          <div class="colorSwatches">
+            <span
+              class="color-swatch"
+              data-color="mixed"
+              style="background: linear-gradient(90deg,#ff66ff,#33ffd6);"
+            ></span>
+            <span
+              class="color-swatch"
+              data-color="#ff66ff"
+              style="background: #ff66ff;"
+            ></span>
+            <span
+              class="color-swatch"
+              data-color="#33ffd6"
+              style="background: #33ffd6;"
+            ></span>
+            <span
+              class="color-swatch"
+              data-color="#ffd166"
+              style="background: #ffd166;"
+            ></span>
+            <span
+              class="color-swatch"
+              data-color="#66ff88"
+              style="background: #66ff88;"
+            ></span>
+          </div>
+
+          <div class="small" style="margin-top: 10px;">Volume</div>
+          <input id="vol" class="range" type="range" min="0" max="100" value="80" />
+        </div>
+      </div>
+
     </div>
-  </div>
 
-  <!-- right column: simplified -->
-  <div class="controls-col">
-    <div class="controls-panel">
-      <h3>Appearance</h3>
-      <div class="small">Theme selected during level pick. Toggle there.</div>
-      <div style="margin-top:8px" class="small">Retro = neon synthwave. Modern = clean flat UI.</div>
-    </div>
-
-    <div class="controls-panel">
-      <h3>Combo</h3>
-      <div class="small">Combo window (internal): you have 2.5s to chain eats into a combo.</div>
-      <div style="margin-top:8px" class="small">Best score saved locally.</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- fallback audio -->
-<audio id="eatFallback" preload="auto" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3a0c0f1d3f.mp3"></audio>
-
-<script>
-/* ====== CodeSnake — Contrast + Grid tweaks ====== */
-
-/* Canvas */
-const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
-const BOX = 24;
-const GRID_W = Math.floor(canvas.width / BOX);
-const GRID_H = Math.floor(canvas.height / BOX);
-
-/* DOM */
-const particleCountMul = document.getElementById('particleCountMul');
-const countMulLabel = document.getElementById('countMulLabel');
-const particleSize = document.getElementById('particleSize');
-const sizeLabel = document.getElementById('sizeLabel');
-const trailToggle = document.getElementById('trailToggle');
-const colorSwatches = document.querySelectorAll('.color-swatch');
-const volRange = document.getElementById('vol');
-
-const introOverlay = document.getElementById('introOverlay');
-const introText = document.getElementById('introText');
-const levelOverlay = document.getElementById('levelOverlay');
-const gameOverOverlay = document.getElementById('gameOverOverlay');
-const finalScore = document.getElementById('finalScore');
-const bestScore = document.getElementById('bestScore');
-const playAgainBtn = document.getElementById('playAgainBtn');
-const themeSelect = document.getElementById('themeSelect');
-
-const scoreBoard = document.getElementById('scoreBoard');
-const bestBoard = document.getElementById('bestBoard');
-const comboBox = document.getElementById('comboBox');
-
-/* state */
-let snake = [];
-let direction = 'RIGHT';
-let foods = [];
-const DEFAULT_FOOD_COUNT = 2;
-let score = 0;
-let speed = 160;
-let intervalId = null;
-
-/* particles */
-let particles = [];
-let trailParticles = [];
-let particleConfig = {
-  countMul: Number(particleCountMul.value || 1),
-  size: Number(particleSize.value || 3),
-  colorMode: 'mixed',
-  trail: trailToggle.checked
-};
-
-/* popups */
-let popups = [];
-
-/* combo */
-let combo = 0;
-let lastEatTime = 0;
-let comboWindow = 2500;
-let comboTimeoutId = null;
-
-/* specials probabilities */
-const PREMIUM_CHANCE = 0.12;
-const RARE_CHANCE = 0.04;
-
-/* best */
-const BEST_KEY = 'codesnake_best_v5';
-function getBest(){ return Number(localStorage.getItem(BEST_KEY) || 0); }
-function setBest(v){ localStorage.setItem(BEST_KEY, String(v)); }
-bestBoard.textContent = `Best: ${getBest()}`;
-bestScore.textContent = `Best: ${getBest()}`;
-
-/* ---------- Intro typewriter & Enter flow ---------- */
-const introLines = [
-  "Uh… hey. You there?",
-  "Cool. I wasn’t sure this code would actually run.",
-  "Anyway — welcome, brave human, to CodeSnake!",
-  "It’s not your average snake game. It’s *self-aware*.",
-  "I mean… I know I’m just a few lines of JavaScript, but I have dreams too.",
-  "Dreams of neon lights, 8-bit glory, and maybe… world domination?",
-  "Use your ARROWS or WASD to move. You know, like every other snake game ever.",
-  "Try not to crash. The pixels have families.",
-  "Press START when you're ready — or just stare dramatically at the screen. I’ll wait."
-];
-let lineIdx = 0, charIdx = 0, acc = '', typingTimers = [], typingInProgress = true;
-function sched(fn,t){ const id=setTimeout(fn,t); typingTimers.push(id); return id; }
-function clearTyping(){ typingTimers.forEach(i=>clearTimeout(i)); typingTimers=[]; }
-function typeNext(){
-  if(lineIdx >= introLines.length){ typingInProgress=false; return; }
-  const line = introLines[lineIdx];
-  if(charIdx < line.length){
-    acc += line.charAt(charIdx);
-    introText.innerHTML = acc + "<span style='opacity:0.85'>&#9608;</span>";
-    charIdx++;
-    sched(typeNext, 60 + Math.random()*40);
-  } else {
-    acc += "\n";
-    introText.innerHTML = acc;
-    charIdx = 0;
-    lineIdx++;
-    sched(typeNext, 500 + Math.random()*300);
-  }
-}
-sched(typeNext, 600);
-
-document.addEventListener('keydown', (e)=>{
-  if(e.key !== 'Enter') return;
-  if(getComputedStyle(introOverlay).display === 'none') return;
-  if(typingInProgress){
-    clearTyping();
-    acc = introLines.join("\n") + "\n";
-    introText.innerHTML = acc;
-    typingInProgress = false;
-    unlockAudioOnGesture();
-    return;
-  } else {
-    showLevelSelect();
-    return;
-  }
-});
-function showLevelSelect(){ introOverlay.style.display='none'; levelOverlay.style.display='flex'; }
-
-/* level buttons */
-document.querySelectorAll('.levelBtn').forEach(b=>{
-  b.addEventListener('click', ()=>{
-    speed = Number(b.dataset.speed);
-    applyTheme(themeSelect.value);
-    levelOverlay.style.display='none';
-    startGame();
-  });
-});
-
-/* theme toggle */
-function applyTheme(name){
-  document.body.classList.remove('retro','modern');
-  if(name === 'modern') document.body.classList.add('modern'); else document.body.classList.add('retro');
-}
-
-/* --- food spawn (no labels/icons) --- */
-function cellKey(p){ return `${p.x},${p.y}`; }
-function randomFreeCellUnique(existingSet){
-  let tries=0;
-  while(true){
-    const pos = { x: Math.floor(Math.random()*GRID_W), y: Math.floor(Math.random()*GRID_H) };
-    const k = cellKey(pos);
-    if(existingSet.has(k)){ if(++tries>600) return pos; else continue; }
-    const collSnake = snake.some(s=>s.x===pos.x && s.y===pos.y);
-    if(collSnake){ if(++tries>600) return pos; else continue; }
-    return pos;
-  }
-}
-function spawnFoods(){
-  foods = [];
-  const count = DEFAULT_FOOD_COUNT;
-  const existing = new Set();
-  for(let i=0;i<count;i++){
-    const pos = randomFreeCellUnique(existing);
-    existing.add(cellKey(pos));
-    const roll = Math.random();
-    let points = 1;
-    if(roll < RARE_CHANCE) points = 3;
-    else if(roll < RARE_CHANCE + PREMIUM_CHANCE) points = 2;
-    foods.push({ x:pos.x, y:pos.y, points: points, id:i });
-  }
-}
-function respawnFoodAtIndex(idx){
-  const existing = new Set();
-  for(let i=0;i<foods.length;i++){
-    if(i===idx) continue;
-    existing.add(cellKey({x:foods[i].x, y:foods[i].y}));
-  }
-  for(const s of snake) existing.add(cellKey(s));
-  let tries=0;
-  const old = foods[idx];
-  let newPos;
-  do {
-    newPos = randomFreeCellUnique(existing);
-    tries++;
-    if(tries>600) break;
-  } while(newPos.x === old.x && newPos.y === old.y);
-  const roll = Math.random();
-  let points = 1;
-  if(roll < RARE_CHANCE) points = 3;
-  else if(roll < RARE_CHANCE + PREMIUM_CHANCE) points = 2;
-  foods[idx] = { x:newPos.x, y:newPos.y, points: points, id: idx };
-}
-
-/* --- draw/step with visible grid in both themes --- */
-function init(){
-  snake = [{x: Math.floor(GRID_W/2), y: Math.floor(GRID_H/2)}];
-  direction = 'RIGHT';
-  spawnFoods();
-  score = 0;
-  scoreBoard.textContent = `Score: ${score}`;
-  gameOverOverlay.style.display='none';
-  combo = 0; hideCombo();
-  particles=[]; trailParticles=[]; popups=[];
-  updateBestDisplays();
-  draw();
-}
-function draw(){
-  // background
-  if(document.body.classList.contains('modern')){
-    ctx.fillStyle = '#f7f8fa';
-  } else {
-    ctx.fillStyle = '#000';
-  }
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  // faint guiding grid (visible in both themes; slightly stronger for modern and still visible in retro)
-  ctx.lineWidth = 1;
-  if(document.body.classList.contains('modern')){
-    ctx.strokeStyle = 'rgba(0,0,0,0.06)'; // visible on light bg
-  } else {
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)'; // slightly stronger than before so it's visible
-  }
-  for(let gx=0; gx<GRID_W; gx++){ ctx.beginPath(); ctx.moveTo(gx*BOX,0); ctx.lineTo(gx*BOX,canvas.height); ctx.stroke(); }
-  for(let gy=0; gy<GRID_H; gy++){ ctx.beginPath(); ctx.moveTo(0,gy*BOX); ctx.lineTo(canvas.width,gy*BOX); ctx.stroke(); }
-
-  // foods (plain glowing squares)
-  for(const f of foods){
-    const fill = document.body.classList.contains('modern') ? '#6b7280' : '#33ffcc';
-    ctx.save();
-    ctx.fillStyle = fill;
-    ctx.shadowBlur = document.body.classList.contains('modern') ? 6 : 10;
-    ctx.shadowColor = fill;
-    ctx.fillRect(f.x * BOX + 2, f.y * BOX + 2, BOX - 4, BOX - 4);
-    ctx.restore();
-  }
-
-  // snake
-  for(let i=0;i<snake.length;i++){
-    ctx.save();
-    ctx.fillStyle = i===0 ? (document.body.classList.contains('modern') ? '#111827' : '#ff66ff') : (document.body.classList.contains('modern') ? '#374151' : '#802080');
-    ctx.shadowBlur = document.body.classList.contains('modern') ? 0 : 10;
-    ctx.shadowColor = '#ff33cc';
-    ctx.fillRect(snake[i].x * BOX, snake[i].y * BOX, BOX-1, BOX-1);
-    ctx.restore();
-  }
-
-  drawParticles();
-  drawPopups();
-}
-
-function step(){
-  const head = {...snake[0]};
-  if(direction === 'UP') head.y--;
-  if(direction === 'DOWN') head.y++;
-  if(direction === 'LEFT') head.x--;
-  if(direction === 'RIGHT') head.x++;
-  head.x = (head.x + GRID_W) % GRID_W;
-  head.y = (head.y + GRID_H) % GRID_H;
-
-  if(snake.some(p=>p.x===head.x && p.y===head.y)) return gameOver();
-
-  let eatenIndex = -1;
-  for(let i=0;i<foods.length;i++){ if(head.x === foods[i].x && head.y === foods[i].y){ eatenIndex = i; break; } }
-
-  if(eatenIndex >= 0){
-    const eaten = foods[eatenIndex];
-    score += eaten.points;
-    scoreBoard.textContent = `Score: ${score}`;
-    const px = (eaten.x + 0.5) * BOX, py = (eaten.y + 0.5) * BOX;
-    handleComboAndPlay();
-    spawnParticles(px, py);
-    spawnPopup(px, py, `+${eaten.points}`, combo);
-    if(particleConfig.trail) spawnTrailBurst(px, py);
-    respawnFoodAtIndex(eatenIndex);
-  } else {
-    snake.pop();
-  }
-
-  snake.unshift(head);
-  if(particleConfig.trail) spawnTrailAtSnake();
-  draw();
-}
-
-/* --- controls --- */
-const keyMap = { ArrowUp:'UP', ArrowDown:'DOWN', ArrowLeft:'LEFT', ArrowRight:'RIGHT', w:'UP', a:'LEFT', s:'DOWN', d:'RIGHT', W:'UP', A:'LEFT', S:'DOWN', D:'RIGHT' };
-document.addEventListener('keydown', e=>{
-  const nd = keyMap[e.key];
-  if(nd){ if((direction==='UP' && nd==='DOWN')||(direction==='DOWN' && nd==='UP')||(direction==='LEFT' && nd==='RIGHT')||(direction==='RIGHT' && nd==='LEFT')) return; direction = nd; }
-});
-let tsX=0, tsY=0;
-canvas.addEventListener('touchstart', e=>{ const t=e.changedTouches[0]; tsX=t.clientX; tsY=t.clientY; }, {passive:true});
-canvas.addEventListener('touchend', e=>{ const t=e.changedTouches[0]; const dx=t.clientX-tsX, dy=t.clientY-tsY; if(Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>24){ dx>0? trySetDir('RIGHT'): trySetDir('LEFT'); } else if(Math.abs(dy)>24){ dy>0? trySetDir('DOWN'): trySetDir('UP'); } }, {passive:true});
-function trySetDir(nd){ if((direction==='UP' && nd==='DOWN')||(direction==='DOWN' && nd==='UP')||(direction==='LEFT' && nd==='RIGHT')||(direction==='RIGHT' && nd==='LEFT')) return; direction = nd; }
-
-/* --- particles & popups --- */
-function spawnParticles(px, py){
-  const baseCount = 12;
-  const count = Math.max(1, Math.round(baseCount * particleConfig.countMul));
-  for(let i=0;i<count;i++){
-    const ang = Math.random()*Math.PI*2;
-    const spd = 1 + Math.random()*2.2;
-    particles.push({ x:px, y:py, vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd - 0.6, life:30 + Math.random()*30, size:particleConfig.size + Math.random()*1.5, color:pickParticleColor() });
-  }
-}
-function spawnTrailBurst(px, py){
-  const count = Math.max(2, Math.round(6 * particleConfig.countMul));
-  for(let i=0;i<count;i++){
-    trailParticles.push({ x:px + (Math.random()-0.5)*8, y:py + (Math.random()-0.5)*8, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.8)*0.6, life:20 + Math.random()*30, size: Math.max(0.6, particleConfig.size*0.6), color: pickParticleColor(true) });
-  }
-}
-function pickParticleColor(isTrail=false){
-  const m = particleConfig.colorMode;
-  if(m === 'mixed'){ const arr = ['#ff66ff','#33ffd6','#ffd166','#66ff88']; return arr[Math.floor(Math.random()*arr.length)]; }
-  return m;
-}
-function drawParticles(){
-  for(let i=particles.length-1;i>=0;i--){ const p = particles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.06; p.vx *= 0.98; p.vy *= 0.98; p.life--; if(p.life<=0) particles.splice(i,1); }
-  for(let i=trailParticles.length-1;i>=0;i--){ const p = trailParticles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.vx *= 0.98; p.vy *= 0.98; p.life--; if(p.life<=0) trailParticles.splice(i,1); }
-  for(const p of particles){ ctx.save(); ctx.globalAlpha = Math.max(0, p.life/60); ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); ctx.restore(); }
-  for(const p of trailParticles){ ctx.save(); ctx.globalAlpha = Math.max(0, p.life/60)*0.9; ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); ctx.restore(); }
-}
-function spawnTrailAtSnake(){
-  if(!particleConfig.trail) return;
-  const head = snake[0]; const px = (head.x + 0.5)*BOX; const py = (head.y + 0.5)*BOX;
-  const c = Math.max(1, Math.round(3 * particleConfig.countMul));
-  for(let i=0;i<c;i++){ trailParticles.push({ x: px + (Math.random()-0.5)*6, y: py + (Math.random()-0.5)*6, vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3, life:10 + Math.random()*10, size: Math.max(0.6, particleConfig.size*0.5), color: pickParticleColor(true) }); }
-}
-
-/* popups */
-function spawnPopup(px, py, txt, comboLevel){
-  popups.push({ x:px, y:py, txt:txt, life:50, scale: 1 + Math.min(0.5, comboLevel*0.06) });
-}
-function drawPopups(){
-  for(let i=popups.length-1;i>=0;i--){ const p = popups[i]; ctx.save(); const prog = p.life/50; ctx.globalAlpha = Math.max(0, prog); const yoff = (1-prog)*30; ctx.translate(p.x, p.y - yoff); ctx.scale(p.scale, p.scale); ctx.font = "bold 14px 'Press Start 2P'"; ctx.textAlign = "center"; ctx.fillStyle = document.body.classList.contains('modern') ? '#111827' : '#fff'; ctx.fillText(p.txt, 0, 0); ctx.restore(); p.life--; if(p.life<=0) popups.splice(i,1); } }
-
-/* UI wiring */
-particleCountMul.addEventListener('input', ()=>{ particleConfig.countMul = Number(particleCountMul.value); countMulLabel.textContent = particleConfig.countMul.toFixed(2); document.getElementById('countMulSmall').textContent = particleConfig.countMul.toFixed(2); });
-particleSize.addEventListener('input', ()=>{ particleConfig.size = Number(particleSize.value); sizeLabel.textContent = particleConfig.size.toFixed(1); });
-trailToggle.addEventListener('change', ()=>{ particleConfig.trail = trailToggle.checked; });
-colorSwatches.forEach(s=>{ s.addEventListener('click', ()=>{ particleConfig.colorMode = s.dataset.color; colorSwatches.forEach(x=>x.style.outline=''); s.style.outline='3px solid rgba(0,0,0,0.12)'; });});
-colorSwatches[0].style.outline='3px solid rgba(0,0,0,0.12)';
-volRange.addEventListener('input', ()=>{});
-
-/* combo & audio */
-const SAMPLE_URL = 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_3a0c0f1d3f.mp3';
-let audioCtx = null, eatBuffer = null, sampleReady = false, audioUnlocked=false;
-function ensureAudioCtx(){ if(audioCtx) return; try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ audioCtx=null; } }
-async function loadSample(){ if(sampleReady || !audioCtx) return; try{ const res = await fetch(SAMPLE_URL); const ab = await res.arrayBuffer(); eatBuffer = await audioCtx.decodeAudioData(ab); sampleReady=true; }catch(e){ sampleReady=false; } }
-function unlockAudioOnGesture(){ if(audioUnlocked) return; ensureAudioCtx(); if(audioCtx && audioCtx.state==='suspended') audioCtx.resume().catch(()=>{}); if(audioCtx) loadSample(); audioUnlocked=true; }
-document.body.addEventListener('pointerdown', function once(){ unlockAudioOnGesture(); document.body.removeEventListener('pointerdown', once); });
-document.addEventListener('keydown', (e)=>{ if(e.key==='Enter') unlockAudioOnGesture(); });
-
-function handleComboAndPlay(){
-  const now = Date.now();
-  if(now - lastEatTime <= comboWindow) combo++; else combo = 1;
-  lastEatTime = now;
-  showCombo();
-  playComboChime(combo);
-  if(comboTimeoutId) clearTimeout(comboTimeoutId);
-  comboTimeoutId = setTimeout(()=>{ combo = 0; hideCombo(); }, comboWindow + 400);
-}
-function showCombo(){ if(combo <= 1) { comboBox.style.display='none'; return; } comboBox.textContent = `x${combo}`; comboBox.style.display='inline-block'; comboBox.style.transform='scale(1.12)'; setTimeout(()=>comboBox.style.transform='scale(1)',120); }
-function hideCombo(){ comboBox.style.display='none'; }
-
-function playComboChime(comboLevel){
-  const vol = volRange.value/100;
-  const rate = Math.min(2.0, 1 + (comboLevel - 1) * 0.06);
-  if(audioCtx && sampleReady && eatBuffer){
-    try{ const src = audioCtx.createBufferSource(); src.buffer = eatBuffer; src.playbackRate.value = rate; const g = audioCtx.createGain(); g.gain.value = vol; src.connect(g); g.connect(audioCtx.destination); src.start(); return; }catch(e){} }
-  try{ ensureAudioCtx(); if(!audioCtx) return; const now = audioCtx.currentTime; const osc = audioCtx.createOscillator(); const g = audioCtx.createGain(); osc.type='triangle'; osc.frequency.setValueAtTime(880*rate, now); g.gain.setValueAtTime(vol*0.12, now); g.gain.exponentialRampToValueAtTime(0.001, now+0.14); osc.connect(g); g.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.15); }catch(e){}
-}
-
-/* start / end / UI */
-function startGame(){ init(); if(intervalId) clearInterval(intervalId); intervalId = setInterval(step, speed); }
-function restartGame(){ if(intervalId) clearInterval(intervalId); init(); startGame(); }
-function gameOver(){ if(intervalId) clearInterval(intervalId); finalScore.textContent = `Score: ${score}`; if(score > getBest()) setBest(score); bestScore.textContent = `Best: ${getBest()}`; bestBoard.textContent = `Best: ${getBest()}`; gameOverOverlay.style.display='flex'; }
-playAgainBtn?.addEventListener('click', ()=>{ gameOverOverlay.style.display='none'; levelOverlay.style.display='flex'; });
-
-function updateBestDisplays(){ bestBoard.textContent = `Best: ${getBest()}`; bestScore.textContent = `Best: ${getBest()}`; }
-
-/* init values & draw */
-countMulLabel.textContent = particleConfig.countMul.toFixed(2);
-sizeLabel.textContent = particleConfig.size.toFixed(1);
-document.getElementById('countMulSmall').textContent = particleConfig.countMul.toFixed(2);
-
-applyTheme('retro');
-init();
-draw();
-
-</script>
-</body>
+    <script src="assets/game.js"></script>
+  </body>
 </html>

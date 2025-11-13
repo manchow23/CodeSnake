@@ -1,14 +1,10 @@
-# Use a tiny Nginx image to serve static HTML
+# Use official Nginx image
 FROM nginx:alpine
 
-# Remove the default index to be explicit (optional)
-RUN rm -f /usr/share/nginx/html/*
+# Copy all your website files to Nginx's public directory
+COPY . /usr/share/nginx/html
 
-# Copy your CodeSnake HTML into place
-COPY index.html /usr/share/nginx/html/index.html
-
-# Expose HTTP port
+# Expose port 80 for the web server
 EXPOSE 80
 
-# Default command (nginx already uses this)
-CMD ["nginx", "-g", "daemon off;"]
+# Nginx will automatically start when container runs
