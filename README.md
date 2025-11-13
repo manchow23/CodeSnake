@@ -5,7 +5,7 @@ Includes sound effects, themes, animations, and a polished UI.
 ---
 
 ## 🚀 Live Demo  
-👉 *(   )*
+👉 *(https://manchow23.github.io/CodeSnake/)*
 
 ---
 
@@ -29,7 +29,7 @@ git clone https://github.com/manchow23/CodeSnake.git
 3. Run the game by opening index.html in your browser
 
 ## 🛠️ Tech Stack
-- ⚡ HTML5 Canvas
+- HTML5 Canvas
 - CSS3
 - JavaScript (ES6)
 
