@@ -5,7 +5,7 @@ Includes sound effects, themes, animations, and a polished UI.
 ---
 
 ## 🚀 Live Demo  
-👉 *(https://manchow23.github.io/CodeSnake/)*
+👉 * https://manchow23.github.io/CodeSnake/ *
 
 ---
 
