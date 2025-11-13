@@ -12,11 +12,12 @@ Includes sound effects, themes, animations, and a polished UI.
 ## 🎮 Features  
 - 🐍 Smooth snake movement  
 - 🍎 Random food generation  
-- 🖥️ Retro + Modern themes  
+- 🖥️ Retro + Modern themes 
 - 🔊 Sound effects  
 - 🌈 Animations & particle effects  
 - 🕹️ Replay system + score tracking  
-- ⚡ Clean and optimized JavaScript code (v2.4)
+- ✅ Clean and optimized JavaScript code (v2.4)
+- ⚡Insane Level has extra effects ;)
   
 ---
 
